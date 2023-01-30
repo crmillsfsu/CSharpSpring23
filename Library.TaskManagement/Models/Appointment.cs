@@ -17,5 +17,11 @@ namespace Library.TaskManagement.Models
         {
 
         }
+
+        public Appointment(Item i)
+        {
+            Name = i.Name;
+            Description = i.Description;
+        }
     }
 }

@@ -13,5 +13,11 @@
         {
             return Display;
         }
+
+        public ToDo(Item i)
+        {
+            Name = i.Name;
+            Description = i.Description;
+        }
     }
 }
