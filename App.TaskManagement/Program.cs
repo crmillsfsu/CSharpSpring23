@@ -14,9 +14,10 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 Console.WriteLine("Choose an option:");
                 Console.WriteLine("1. Add a task");
                 Console.WriteLine("2. Delete a task");
-                Console.WriteLine("3. List all the tasks");
-                Console.WriteLine("4. Search for tasks");
-                Console.WriteLine("5. Exit");
+                Console.WriteLine("3. Update a task");
+                Console.WriteLine("4. List all the tasks");
+                Console.WriteLine("5. Search for tasks");
+                Console.WriteLine("6. Exit");
 
                 string choice = Console.ReadLine() ?? string.Empty;
 
@@ -71,12 +72,56 @@ namespace MyApp // Note: actual namespace depends on the project name.
                         }
 
                         taskList.RemoveAt(toDelete);
+                    } else if (choiceInt == 3)
+                    {
+                        Console.WriteLine("Which of the tasks would you like to edit?");
+
+                        taskList.ForEach(number => Console.WriteLine(number));
+                        int toDelete;
+                        while (!int.TryParse(Console.ReadLine(), out toDelete))
+                        {
+                            Console.WriteLine("Invalid Selection. Please try again.");
+                            taskList.ForEach(number => Console.WriteLine(number));
+
+                            int.TryParse(Console.ReadLine(), out toDelete);
+                        }
+
+                        var taskToEdit = taskList.ElementAt(toDelete);
+
+                        Console.WriteLine("What property do you want to edit?");
+                        Console.WriteLine("1. Name");
+                        Console.WriteLine("2. Description");
+
+                        if (taskToEdit is Appointment)
+                        {
+                            Console.WriteLine("3. Start");
+                            Console.WriteLine("4. End");
+                        } else
+                        {
+
+                        }
+
+                        var propertyChoice = int.Parse(Console.ReadLine() ?? "0");
+                        switch(propertyChoice)
+                        {
+                            case 1:
+                                Console.WriteLine("What is the new Name?");
+                                taskToEdit.Name = Console.ReadLine() ?? string.Empty;
+                                break;
+                            case 2:
+                                Console.WriteLine("What is the new description?");
+                                taskToEdit.Description = Console.ReadLine() ?? string.Empty;
+                                break;
+                            default:
+                                Console.WriteLine("Sorry, that functionality hasn't been implemented yet!");
+                                break;
+                        }
                     }
-                    else if (choiceInt == 3)
+                    else if (choiceInt == 4)
                     {
                         taskList.ForEach(number => Console.WriteLine(number));
                     }
-                    else if (choiceInt == 4)
+                    else if (choiceInt == 5)
                     {
                         Console.WriteLine("Enter a search term:");
                         var query = Console.ReadLine();
@@ -91,7 +136,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
                         //note that ToList() here is OK because we are just temporarily using the deep copy!
                         filteredTasks.ToList().ForEach(task => Console.WriteLine(task));
                     }
-                    else if (choiceInt == 5)
+                    else if (choiceInt == 6)
                     {
                         cont = false;
                     }
