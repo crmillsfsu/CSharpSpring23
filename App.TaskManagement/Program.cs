@@ -13,9 +13,10 @@ namespace MyApp // Note: actual namespace depends on the project name.
             {
                 Console.WriteLine("Choose an option:");
                 Console.WriteLine("1. Add a task");
-                Console.WriteLine("2. List all the tasks");
-                Console.WriteLine("3. Search for tasks");
-                Console.WriteLine("4. Exit");
+                Console.WriteLine("2. Delete a task");
+                Console.WriteLine("3. List all the tasks");
+                Console.WriteLine("4. Search for tasks");
+                Console.WriteLine("5. Exit");
 
                 string choice = Console.ReadLine() ?? string.Empty;
 
@@ -41,13 +42,13 @@ namespace MyApp // Note: actual namespace depends on the project name.
 
                         if (isToDo)
                         {
-                            var newTodo = newTask as ToDo;
+                            var newTodo = new ToDo(newTask);
 
                             newTodo.IsComplete = false;
                             taskList.Add(newTodo);
                         } else
                         {
-                            var newAppointment = newTask as Appointment;
+                            var newAppointment = new Appointment(newTask);
 
                             newAppointment.Start = DateTime.Now;
                             newAppointment.End = DateTime.Now.AddHours(1);
@@ -56,12 +57,26 @@ namespace MyApp // Note: actual namespace depends on the project name.
                         }
 
                         
+                    } else if(choiceInt == 2)
+                    {
+                        Console.WriteLine("Which of the tasks would you like to remove?");
+                        taskList.ForEach(number => Console.WriteLine(number));
+                        int toDelete;
+                        while (!int.TryParse(Console.ReadLine(), out toDelete))
+                        {
+                            Console.WriteLine("Invalid Selection. Please try again.");
+                            taskList.ForEach(number => Console.WriteLine(number));
+
+                            int.TryParse(Console.ReadLine(), out toDelete);
+                        }
+
+                        taskList.RemoveAt(toDelete);
                     }
-                    else if (choiceInt == 2)
+                    else if (choiceInt == 3)
                     {
                         taskList.ForEach(number => Console.WriteLine(number));
                     }
-                    else if (choiceInt == 3)
+                    else if (choiceInt == 4)
                     {
                         Console.WriteLine("Enter a search term:");
                         var query = Console.ReadLine();
@@ -76,7 +91,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
                         //note that ToList() here is OK because we are just temporarily using the deep copy!
                         filteredTasks.ToList().ForEach(task => Console.WriteLine(task));
                     }
-                    else if (choiceInt == 4)
+                    else if (choiceInt == 5)
                     {
                         cont = false;
                     }
