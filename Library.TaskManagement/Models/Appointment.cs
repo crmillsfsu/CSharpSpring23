@@ -11,6 +11,8 @@ namespace Library.TaskManagement.Models
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
 
+        public List<string> Attendees { get; set; }
+
         public override string Display => $"{base.Display}\n{Start} - {End}";
 
         public Appointment()
